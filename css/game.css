@@ -1,0 +1,62 @@
+/* CSS for the Mario game */
+:root {
+    /* MARIO */
+    --mario-width: 55px;
+    --mario-height: 85px;
+    --mario-speed: 10px;
+    --mario-jump: 100px;
+    --mario-gravity: 10px;
+    --mario-jump-speed: 10px;
+    --mario-jump-height: 100px;
+    --mario-jump-gravity: 10px;
+    --mario-jump-time: 1s;
+    --mario-sprite: url('../sprites/sprite.png');
+    --mario-sprite-alternate: url('../sprites/walking.gif');
+    /* SKY */
+    --sky-color: #87CEEB;
+    --sky-background: url('../sprites/bg.png');
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+    height: 100vh;
+    overflow: hidden;
+}
+
+main {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background-image: var(--sky-background);
+    left: 0;
+    top: 0;
+    background-color: var(--sky-color);
+    background-position: center bottom;
+}
+
+#mario {
+    position: absolute;
+    width: var(--mario-width);
+    height: var(--mario-height);
+    background-image: var(--mario-sprite);
+    background-position: -110px -170px;
+    bottom: 150px;
+    left: 20px;
+    transform: scale(2);
+}
+
+#marioalt {
+    position: absolute;
+    width: var(--mario-width);
+    height: var(--mario-height);
+    background-image: var(--mario-sprite-alternate);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 0 0;
+    bottom: 150px;
+    left: 200px;
+    transform: scale(2);
+}
