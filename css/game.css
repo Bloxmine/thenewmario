@@ -12,6 +12,10 @@
     --mario-jump-time: 1s;
     --mario-sprite: url('../sprites/sprite.png');
     --mario-sprite-alternate: url('../sprites/walking.gif');
+    --mario-bottom: 150px;
+    --mario-left: 20px;
+    --mario-alt-bottom: 150px;
+    --mario-alt-left: 200px;
     /* SKY */
     --sky-color: #87CEEB;
     --sky-background: url('../sprites/bg.png');
@@ -43,9 +47,10 @@ main {
     height: var(--mario-height);
     background-image: var(--mario-sprite);
     background-position: -110px -170px;
-    bottom: 150px;
-    left: 20px;
+    bottom: var(--mario-bottom);
+    left: var(--mario-left);
     transform: scale(2);
+    transition: bottom 0.3s, left 0.3s;
 }
 
 #marioalt {
@@ -56,7 +61,7 @@ main {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: 0 0;
-    bottom: 150px;
-    left: 200px;
+    bottom: var(--mario-alt-bottom);
+    left: var(--mario-alt-left);
     transform: scale(2);
 }

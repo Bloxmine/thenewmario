@@ -1,0 +1,72 @@
+*                           { 
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    user-select:none;
+}
+
+body                        { 
+    height:100vh;
+    overflow:hidden; 
+}
+
+main                        { 
+    position:fixed;
+    left:0;
+    top:0;
+    width:100vw;
+    height:100vh;
+    background-image:url("../sprites/bg.png");
+    background-repeat:repeat-x;
+    background-color:#0080c0;
+    background-position:center bottom;
+}
+
+#mario {
+    --mario_position:100px;
+    --scale-of-mario:2.5;
+    width:55px;
+    height:85px;
+    background-image:url("../sprites/sprite.png");
+    background-position:-110px -170px;
+    position:absolute;
+    bottom:170px;
+    left:var(--mario_position);
+    transform:scale(var(--scale-of-mario));
+}
+
+@keyframes walking {
+    100% { background-position-x:-165px; }
+}
+
+@keyframes jump {
+    0% { bottom:170px; }
+    45%,55% { bottom:500px }
+    100% { bottom:170px; }
+}
+
+#mario.walking{
+    animation:walking 0.3s steps(3) infinite;
+    background-position:0px -85px;
+}
+
+#mario.right { 
+    transform:scaleX(-1) scale(2.5);
+}
+
+/* when standing still mario's sprite changes to dacing.gif */
+#mario.standing {
+    background-image:url("../sprites/dancing.gif");
+    background-position:0px 0px;
+    background-size:contain;
+    background-repeat:no-repeat;
+    background-position:center;
+    background-size:contain;
+    animation:none;
+    transform:scale(3.8);
+}
+
+#mario.jump{
+    animation:jump 0.5s 1 linear;
+    background-position:-55px -170px;
+}
