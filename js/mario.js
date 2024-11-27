@@ -48,10 +48,10 @@ setInterval(() => {
         else marioElement.classList.remove("running");
         marioElement.style.setProperty("--mario_position", locationOfMario - speed + "px");
         backgroundPosition += speed; // move background in the opposite direction
-        containerElement.style.backgroundPosition = `${backgroundPosition}px 0`;
+        containerElement.style.backgroundPosition = `${backgroundPosition}px bottom`;
         groundPosition += speed * 1.5; // move ground in the opposite direction
         distanceWalked += speed;
-        groundElement.style.backgroundPosition = `${groundPosition}px 0`;
+        groundElement.style.backgroundPosition = `${groundPosition}px bottom`;
     } else if (keysBeingPressed.includes("ArrowRight")) {
         marioElement.classList.add("walking", "right");
         marioElement.classList.remove("left", "standing");
@@ -59,10 +59,10 @@ setInterval(() => {
         else marioElement.classList.remove("running");
         marioElement.style.setProperty("--mario_position", locationOfMario + speed + "px");
         backgroundPosition -= speed; // move background in the opposite direction
-        containerElement.style.backgroundPosition = `${backgroundPosition}px 0`;
+        containerElement.style.backgroundPosition = `${backgroundPosition}px bottom`;
         groundPosition -= speed * 1.5; // move ground in the opposite direction
         distanceWalked += speed;
-        groundElement.style.backgroundPosition = `${groundPosition}px 0`;
+        groundElement.style.backgroundPosition = `${groundPosition}px bottom`;
     } else {
         marioElement.classList.remove("walking", "right", "left", "running");
         marioElement.classList.add("standing");
