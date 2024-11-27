@@ -19,7 +19,7 @@ backgroundMusic.volume = 0.5;
 const marioSpeaking = new Audio("music/mama.mp3");
 marioSpeaking.loop = false;
 marioSpeaking.volume = 0.5;
-
+// make sure the background music plays in every browser
 document.body.addEventListener("keydown", (event) => {
     backgroundMusic.play();
     if (!keysBeingPressed.includes(event.key)) {
@@ -30,8 +30,8 @@ document.body.addEventListener("keydown", (event) => {
 document.body.addEventListener("keyup", (event) => {
     keysBeingPressed = keysBeingPressed.filter(key => key !== event.key);
 });
-
 setInterval(() => {
+    // get the current position of Mario
     const computedStyleOfMario = getComputedStyle(marioElement);
     let locationOfMario = parseInt(computedStyleOfMario.getPropertyValue("--mario_position"));
 
@@ -40,7 +40,7 @@ setInterval(() => {
 
     let speed = keysBeingPressed.includes("Shift") ? 15 : 5;
     let isRunning = keysBeingPressed.includes("Shift");
-
+    // move Mario to the left or right
     if (keysBeingPressed.includes("ArrowLeft")) {
         marioElement.classList.add("walking", "left");
         marioElement.classList.remove("right", "standing");
@@ -67,9 +67,10 @@ setInterval(() => {
         marioElement.classList.remove("walking", "right", "left", "running");
         marioElement.classList.add("standing");
     }
-
+    // play sound when space is pressed
     if (keysBeingPressed.includes(" ")) marioSpeaking.play();
 
+    // make Mario jump
     if (keysBeingPressed.includes("ArrowUp")) {
         marioElement.classList.add("jump");
         marioElement.classList.remove("standing");
@@ -96,7 +97,7 @@ let luigiSpawnTime = 0;
 setInterval(() => {
     if (keysBeingPressed.includes("ArrowRight")) {
         luigiSpawnTime++;
-        if (luigiSpawnTime >= 180 && !luigiSpawned) {
+        if (luigiSpawnTime >= 100 && !luigiSpawned) {
             luigiElement.style.display = "block";
             luigiSpawned = true;
         }
@@ -104,9 +105,11 @@ setInterval(() => {
         luigiSpawnTime = 0;
     }
 
+    let luigiSpeed = keysBeingPressed.includes("Shift") ? 10 : 5;
+
     if (luigiSpawned && keysBeingPressed.includes("ArrowRight")) {
         luigiElement.style.setProperty("--luigi_position", luigiPosition + "px");
-        luigiPosition += 5;
+        luigiPosition += luigiSpeed;
     }
 }, 1000 / 60);
 
@@ -119,10 +122,12 @@ setInterval(() => {
     }
 }, 1000 / 60);
 
-// Move Luigi to the right when the left arrow is pressed
+// move Luigi to the right when the left arrow is pressed and make him go faster when the shift key is pressed
 setInterval(() => {
+    let luigiSpeed = keysBeingPressed.includes("Shift") ? 10 : 5;
+
     if (luigiSpawned && keysBeingPressed.includes("ArrowLeft")) {
         luigiElement.style.setProperty("--luigi_position", luigiPosition + "px");
-        luigiPosition -= 5;
+        luigiPosition -= luigiSpeed;
     }
 }, 1000 / 60);
