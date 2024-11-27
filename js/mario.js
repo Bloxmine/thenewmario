@@ -1,87 +1,90 @@
-const mario_element=document.querySelector("#mario")
-let keys_being_pressed=[]
-let did_mario_jump = false
+// Mario platformer code
+// Authors: Maikel Putman, Hein Dijstelbloem.
+// Date: 2024-11-27
+
+const marioElement = document.querySelector("#mario");
+const containerElement = document.querySelector("#container");
+const groundElement = document.querySelector("#ground");
+const luigiElement = document.querySelector("#luigi");
+let keysBeingPressed = [];
+let didMarioJump = false;
+let backgroundPosition = 0;
+let groundPosition = 0;
+let distanceWalked = 0;
+
 // sounds for mario
-const background_music=new Audio("music/athletic.mp3")
-background_music.loop=true
-background_music.volume=0.5
-console.log(mario_element)
+const backgroundMusic = new Audio("music/athletic.mp3");
+backgroundMusic.loop = true;
+backgroundMusic.volume = 0.5;
 
-const mariospeaking=new Audio("music/mama.mp3")
-mariospeaking.loop=false
-mariospeaking.volume=0.5
+const marioSpeaking = new Audio("music/mama.mp3");
+marioSpeaking.loop = false;
+marioSpeaking.volume = 0.5;
 
-//Add 
-document.body.addEventListener("keydown",(event)=>{
-    background_music.play()
-    if(!keys_being_pressed.includes(event.key)){
-        keys_being_pressed.push(event.key)
+document.body.addEventListener("keydown", (event) => {
+    backgroundMusic.play();
+    if (!keysBeingPressed.includes(event.key)) {
+        keysBeingPressed.push(event.key);
     }
+});
 
-   
-})
+document.body.addEventListener("keyup", (event) => {
+    keysBeingPressed = keysBeingPressed.filter(key => key !== event.key);
+});
 
-//Take keys being released out of our array
-document.body.addEventListener("keyup",(event)=>{
-    keys_being_pressed=keys_being_pressed.filter(key=>key!==event.key)
-})
+setInterval(() => {
+    const computedStyleOfMario = getComputedStyle(marioElement);
+    let locationOfMario = parseInt(computedStyleOfMario.getPropertyValue("--mario_position"));
 
+    const computedStyleOfLuigi = getComputedStyle(luigiElement);
+    let locationOfLuigi = parseInt(computedStyleOfLuigi.getPropertyValue("--luigi_position"));
 
-setInterval(()=>{
+    if (locationOfMario < -55) locationOfMario = window.innerWidth;
+    if (locationOfMario > window.innerWidth) locationOfMario = -55;
 
+    let speed = keysBeingPressed.includes("Shift") ? 15 : 5;
+    // making the code more compact by combining the if statements when possible
+    if (keysBeingPressed.includes("ArrowLeft")) {
+        marioElement.classList.add("walking", "left");
+        marioElement.classList.remove("right", "standing");
+        marioElement.style.setProperty("--mario_position", locationOfMario - speed + "px");
+        backgroundPosition += speed; // move background in the opposite direction
+        containerElement.style.backgroundPosition = `${backgroundPosition}px 0`;
+        groundPosition += speed * 1.5; // move ground in the opposite direction
+        distanceWalked += speed;
+        groundElement.style.backgroundPosition = `${groundPosition}px 0`;
+    } else if (keysBeingPressed.includes("ArrowRight")) {
+        marioElement.classList.add("walking", "right");
+        marioElement.classList.remove("left", "standing");
+        marioElement.style.setProperty("--mario_position", locationOfMario + speed + "px");
+        backgroundPosition -= speed; // move background in the opposite direction
+        containerElement.style.backgroundPosition = `${backgroundPosition}px 0`;
+        groundPosition -= speed * 1.5; // move ground in the opposite direction
+        distanceWalked += speed;
+        groundElement.style.backgroundPosition = `${groundPosition}px 0`;
 
-    //Get the position of Mario
-    const computed_style_of_mario=getComputedStyle(mario_element)
-    const location_of_mario=parseInt(computed_style_of_mario.getPropertyValue("--mario_position"))
-
-    if(location_of_mario<-55){
-        location_of_mario=window.innerWidth
-    }
-    if(location_of_mario>window.innerWidth){
-        location_of_mario=-55
-    }
-
-
-    console.log(keys_being_pressed)
-    //Check what button is pressed and move Mario accordingly
-    //Walk to the left and right
-    if(keys_being_pressed.includes("ArrowLeft")){
-        mario_element.classList.add("walking")
-        mario_element.classList.add("left")        
-        mario_element.classList.remove("right")
-        mario_element.classList.remove("standing")
-        mario_element.style.setProperty("--mario_position",location_of_mario-5+"px")
-    } else if(keys_being_pressed.includes("ArrowRight")){
-        mario_element.classList.add("walking")
-        mario_element.classList.remove("left")
-        mario_element.classList.add("right")
-        mario_element.classList.remove("standing")
-        mario_element.style.setProperty("--mario_position",location_of_mario+5+"px")
-    } else {
-        mario_element.classList.remove("walking")
-        mario_element.classList.remove("right") 
-        mario_element.classList.remove("left") 
-        mario_element.classList.add("standing")
-    }
-    if (keys_being_pressed.includes(" ")){
-        // mario makes a sound
-        mariospeaking.play()
-    }
-
-    //jump
-
-    if(keys_being_pressed.includes("ArrowUp")){
-        mario_element.classList.add("jump")
-        mario_element.classList.remove("standing")
-        if(!did_mario_jump){
-            did_mario_jump=true
-            setTimeout(()=>{
-                mario_element.classList.remove("jump")
-            },500)
+        if (distanceWalked > 100) {
+            luigiElement.style.display = "block";
+            luigiElement.style.setProperty("--luigi_position", locationOfLuigi - speed + "px");
         }
     } else {
-        did_mario_jump=false        
+        marioElement.classList.remove("walking", "right", "left");
+        marioElement.classList.add("standing");
     }
 
+    if (keysBeingPressed.includes(" ")) marioSpeaking.play();
 
-},1000/60)
+    if (keysBeingPressed.includes("ArrowUp")) {
+        marioElement.classList.add("jump");
+        marioElement.classList.remove("standing");
+        if (!didMarioJump) {
+            didMarioJump = true;
+            setTimeout(() => marioElement.classList.remove("jump"), 500);
+        }
+    } else {
+        didMarioJump = false;
+    }
+
+    // Update Mario's position
+    marioElement.style.setProperty("--mario_position", `${locationOfMario}px`);
+}, 1000 / 60);

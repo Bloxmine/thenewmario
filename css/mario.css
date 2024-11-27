@@ -22,6 +22,26 @@ main                        {
     background-position:center bottom;
 }
 
+#container {
+    background-image: url('../sprites/bg.png');
+    background-repeat: repeat-x;
+    background-position: 0 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+#ground {
+    background-image: url('../sprites/ground.png');
+    background-repeat: repeat-x;
+    background-position: 0 0;
+    width: 100%;
+    height: 64px;
+    position: absolute;
+    bottom: 0;
+}
+
 #mario {
     --mario_position:100px;
     --scale-of-mario:2.5;
@@ -30,7 +50,7 @@ main                        {
     background-image:url("../sprites/sprite.png");
     background-position:-110px -170px;
     position:absolute;
-    bottom:170px;
+    bottom:125px;
     left:var(--mario_position);
     transform:scale(var(--scale-of-mario));
 }
@@ -57,11 +77,9 @@ main                        {
 /* when standing still mario's sprite changes to dacing.gif */
 #mario.standing {
     background-image:url("../sprites/dancing.gif");
-    background-position:0px 0px;
     background-size:contain;
     background-repeat:no-repeat;
     background-position:center;
-    background-size:contain;
     animation:none;
     transform:scale(3.8);
 }
@@ -69,4 +87,18 @@ main                        {
 #mario.jump{
     animation:jump 0.5s 1 linear;
     background-position:-55px -170px;
+}
+
+#luigi {
+    width: 55px;
+    height: 85px;
+    background-image: url("../sprites/luigidance.gif");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: absolute;
+    bottom: 125px;
+    transform: scale(3.8);
+    display: none;
+    right: var(--luigi_position, 100px);
 }
