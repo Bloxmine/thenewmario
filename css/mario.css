@@ -89,6 +89,11 @@ main                        {
     background-position:-55px -170px;
 }
 
+#mario.running {
+    animation:walking 0.3s steps(3) infinite;
+    background-position: 0px 0px;
+}
+
 #luigi {
     width: 55px;
     height: 85px;
