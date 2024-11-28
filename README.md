@@ -7,12 +7,8 @@ This is a simple Mario 'platformer' built with Javascript and CSS. Based on a le
 
 ### Authors
 
-* Maikel Putman
 * Hein Dijstelbloem
-
-### Date
-
-2024-11-27
+* Maikel Putman
 
 ### Description
 
@@ -56,7 +52,8 @@ This game allows you to control Mario as he runs and jumps across a side-scrolli
 * Jumping is a bit finnicky right now.
 
 ### Special thanks
-* [DeviantArt user CursedMario for the sprites of Mario and Luigi dancing:](https://www.deviantart.com/cursedmario/art/SMAS-SMW-Luigi-Dancing-921139073)
+* [DeviantArt user Josuecr4ft for the dancing Mario and Luigi](https://www.deviantart.com/josuecr4ft/art/SMW-Mario-and-Luigi-dancing-meme-920443430)
+* [DeviantArt user CursedMario for the sprite of Luigi dancing looking more like SMW](https://www.deviantart.com/cursedmario/art/SMAS-SMW-Luigi-Dancing-921139073)
 * Maikel Putman for explaning the tutorial.
 * SiivaGunner contributors for SMW - Athletic (PAL Version)
 * Classic YTP's for 'mama f*****'
