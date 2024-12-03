@@ -5,11 +5,15 @@
 const marioElement = document.querySelector("#mario");
 const containerElement = document.querySelector("#container");
 const groundElement = document.querySelector("#ground");
+const luigiElement = document.querySelector("#luigi");
 let keysBeingPressed = [];
 let didMarioJump = false;
 let backgroundPosition = 0;
 let groundPosition = 0;
 let distanceWalked = 0;
+let luigiPosition = 0;
+let luigiSpawned = false;
+let luigiSpawnTime = 0;
 
 // sounds for mario
 const backgroundMusic = new Audio("music/athletic.mp3");
@@ -19,6 +23,7 @@ backgroundMusic.volume = 0.5;
 const marioSpeaking = new Audio("music/mama.mp3");
 marioSpeaking.loop = false;
 marioSpeaking.volume = 0.5;
+
 // make sure the background music plays in every browser
 document.body.addEventListener("keydown", (event) => {
     backgroundMusic.play();
@@ -30,8 +35,9 @@ document.body.addEventListener("keydown", (event) => {
 document.body.addEventListener("keyup", (event) => {
     keysBeingPressed = keysBeingPressed.filter(key => key !== event.key);
 });
+
 setInterval(() => {
-    // get the current position of Mario
+    // Mario movement
     const computedStyleOfMario = getComputedStyle(marioElement);
     let locationOfMario = parseInt(computedStyleOfMario.getPropertyValue("--mario_position"));
 
@@ -40,16 +46,16 @@ setInterval(() => {
 
     let speed = keysBeingPressed.includes("Shift") ? 15 : 5;
     let isRunning = keysBeingPressed.includes("Shift");
-    // move Mario to the left or right
+
     if (keysBeingPressed.includes("ArrowLeft")) {
         marioElement.classList.add("walking", "left");
         marioElement.classList.remove("right", "standing");
         if (isRunning) marioElement.classList.add("running");
         else marioElement.classList.remove("running");
         marioElement.style.setProperty("--mario_position", locationOfMario - speed + "px");
-        backgroundPosition += speed; // move background in the opposite direction
+        backgroundPosition += speed;
         containerElement.style.backgroundPosition = `${backgroundPosition}px bottom`;
-        groundPosition += speed * 1.5; // move ground in the opposite direction
+        groundPosition += speed * 1.5;
         distanceWalked += speed;
         groundElement.style.backgroundPosition = `${groundPosition}px bottom`;
     } else if (keysBeingPressed.includes("ArrowRight")) {
@@ -58,19 +64,18 @@ setInterval(() => {
         if (isRunning) marioElement.classList.add("running");
         else marioElement.classList.remove("running");
         marioElement.style.setProperty("--mario_position", locationOfMario + speed + "px");
-        backgroundPosition -= speed; // move background in the opposite direction
+        backgroundPosition -= speed;
         containerElement.style.backgroundPosition = `${backgroundPosition}px bottom`;
-        groundPosition -= speed * 1.5; // move ground in the opposite direction
+        groundPosition -= speed * 1.5;
         distanceWalked += speed;
         groundElement.style.backgroundPosition = `${groundPosition}px bottom`;
     } else {
         marioElement.classList.remove("walking", "right", "left", "running");
         marioElement.classList.add("standing");
     }
-    // play sound when space is pressed
+
     if (keysBeingPressed.includes(" ")) marioSpeaking.play();
 
-    // make Mario jump
     if (keysBeingPressed.includes("ArrowUp")) {
         marioElement.classList.add("jump");
         marioElement.classList.remove("standing");
@@ -82,19 +87,9 @@ setInterval(() => {
         didMarioJump = false;
     }
 
-    // update Mario's position
     marioElement.style.setProperty("--mario_position", `${locationOfMario}px`);
-}, 1000 / 60);
 
-
-// luigi spawner system
-// when the arrowRight is pressed for 3 seconds, luigi's div will spawn and move to the left of the screen like the background. It will use the #luigi div located in the css file.
-let luigiElement = document.querySelector("#luigi");
-let luigiPosition = 0;
-let luigiSpawned = false;
-let luigiSpawnTime = 0;
-
-setInterval(() => {
+    // Luigi spawner system
     if (keysBeingPressed.includes("ArrowRight")) {
         luigiSpawnTime++;
         if (luigiSpawnTime >= 100 && !luigiSpawned) {
@@ -111,20 +106,12 @@ setInterval(() => {
         luigiElement.style.setProperty("--luigi_position", luigiPosition + "px");
         luigiPosition += luigiSpeed;
     }
-}, 1000 / 60);
 
-// when the luigi div reaches the end of the screen, it will be reset to the left side of the screen.
-setInterval(() => {
     if (luigiPosition > window.innerWidth) {
         luigiElement.style.display = "none";
         luigiPosition = 0;
         luigiSpawned = false;
     }
-}, 1000 / 60);
-
-// move Luigi to the right when the left arrow is pressed and make him go faster when the shift key is pressed
-setInterval(() => {
-    let luigiSpeed = keysBeingPressed.includes("Shift") ? 10 : 5;
 
     if (luigiSpawned && keysBeingPressed.includes("ArrowLeft")) {
         luigiElement.style.setProperty("--luigi_position", luigiPosition + "px");
